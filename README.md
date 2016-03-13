@@ -1,8 +1,8 @@
 # Django-Selenium Page Objects
 
-** Framework to test django sites with Selenium, by app context & the page-objects design pattern**
+**Framework to test django sites with Selenium, by app context & the page-objects design pattern**
 
-*Note: It's easier to grasp the idea in real code, so after this README, please look at a full page objects testing code for a real website in the [django-website](https://github.com/Aviah/django-website)
+*Note: It's easier to grasp the idea in real code, so after this README, please look at a full page objects testing code for a real website in the [django-website](https://github.com/Aviah/django-website)*
 
 [Overview](#overview)    
 [How To](#how-to)    
@@ -65,11 +65,14 @@ This code is also much easier to maintain, and if you ever tried to adjust a dec
 
 This repository contains all the layers you need to write tests in the page objects pattern:
 
-**selenium_page_objects:** These are the base classes that map application context objects like pages, contacts, products, etc to Selenium generic HTML elements
+####selenium_page_objects
+The base classes that map application context objects like pages, contacts, products, etc to Selenium generic HTML elements
 
-**selenium_site:** This is where you write your specific site context objects, using the selenium_page_objects base classes. In a way, this layer maps the objects, attributes and methods to the actual GUI
+###selenium_site
+Where you write your specific site context objects, using the selenium_page_objects base classes. In a way, this layer maps the objects, attributes and methods to the actual GUI
 
-**selenium_test:** Here you write test cases, with common unittest. You use the selenium_site objects to write a test that map to the application context, and when possible using page objects and page methods that have similar name to the actual website pages and user actions.
+###selenium_test
+Here you write test cases, with common unittest. You use the selenium_site objects to write a test that map to the application context, and when possible using page objects and page methods that have similar name to the actual website pages and user actions.
 
 
 ## Components
