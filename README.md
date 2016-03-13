@@ -1,8 +1,23 @@
 # Django-Selenium Page Objects
 
-Python framework to test django sites with Selenium, by app context & the page-objects design pattern.
+** Framework to test django sites with Selenium, by app context & the page-objects design pattern**
 
-*Note: It's easier to grasp the idea in real code, please look at a full page objects testing code for a real website in the [Example Project]()*
+*Note: It's easier to grasp the idea in real code, so after this README, please look at a full page objects testing code for a real website in the [django-website](https://github.com/Aviah/django-website)
+
+[Overview](#overview)    
+[How To](#how-to)    
+[Components](#components)    
+[Writing Tests](#writing-tests)    
+[Install](#install)    
+[Browser](#browser)    
+[Actions](#actions)    
+[Page id](#page-id)    
+[Settings](#settings)    
+[Wrapper](#wrapper)    
+[Best Paractices](#best-practices)    
+[Automation is Not Everything](#automation-is-not-everyting)    
+
+
 
 ## Overview
 
@@ -177,28 +192,29 @@ The test also uses two application elements:
 * FriendRequest 
 * FriendObject
 
-Here, the test uses the "FriendRequest object "approve", it can of course have other methods like "delete", or a property like "date".
+Here, the test uses the `FriendRequest` object's `approve` method. It can of course have other methods like `delete`, or a property like `request_date`.
 
-## Installation
+## Install
 
 1. To install Selenium:
 
 		$ sudo pip install -U selenium
-2. The default driver is Firefox, so you need Firefox installed. For Chrome (or Chromium) you will need to download additional Selenium-Chrome driver and set the CHROME_DRIVER settings. See [Settings]().
+		
+2. The default driver is Firefox, so you need Firefox installed. For Chrome (or Chromium) you will need to download additional Selenium-Chrome driver and set the CHROME_DRIVER settings. See [Settings](#settings).
 
-2. If you don't have a "tests" directory in your porject, add one.
-2. In the "tests" directory, add the three page-objects directories from the repo: 
+2. If you don't have a `tests` directory in your project, add one.
+2. In the `tests` directory, add the three page-objects directories from the repo: 
 
 		tests/
 			selenium_page_objects
 			selenium_site
 			selenium_test
 	
-3. The selnium_page_objects contains the base objects: pages, elements, forms, and helpers.
-4. Subclass these base objects to the "selenium_site" directory: write the classes and code for your site specific context, the specific pages, elements and forms. The selenium_site directory contains a few examples.
-5. Finally, write and run the tests, based on test_template.py. Copy it and add your tests (not via subclassing, but a simple copy of the file).
-6. You may need to change the imports in the files to match your project and PYTHONPATH. Since tests are often run as scripts, and not as packages, try not to use relative imports.
-7. To change defaults, add and adjust settings, see [Settings]()
+3. The `selnium_page_objects` directory contains the base objects: pages, elements, forms, and helpers.
+4. Subclass these base objects to the `selenium_site` directory, where you write the classes and the code for your site **specific** context. The specific pages, elements and forms. The selenium_site directory contains a few examples.
+5. Finally, write and run the tests, based on `selenium_tests/test_template.py`. Copy the test template and write your tests (not via subclassing, but a simple copy of the file).
+6. You may need to change the imports in the files to match your project and `PYTHONPATH`. Since tests are often run as scripts, and not as packages, try not to use relative imports.
+7. To change defaults, add and adjust settings, see [Settings](#settings)
 
 ## Browser
 
@@ -216,9 +232,6 @@ What happens here?
 2. The tests calls the "my_friends" method of the dashboard page object (which could be a link or a buttor on the page)
 2. This method moves the browser to the "my friends" page. It returns the browser instance.
 3. The tests instansiate a MyFriendsPage page object with the browser instance, that now points to a "my friends" page
-
-
-If dashboard.my_friends() takes the user to another page, this line will trigger an error: the MyFriendsPage will get a browser that points to incorrect page, and except the test - which is exactly what we want when such error occurs.
 
 In a similar way, site elements are also initated with a browser:
 
@@ -238,7 +251,7 @@ All page objects, element objects and form objects have a "browser" attribute, s
 	john = Contact(browser=my_contacts_page.browser)
 					
 
-**To summarize: every page and element method should return a browser instance, and every page and element should initiated with (browser=…)**
+**To summarize: every page and element method should return a browser instance, and every page and element should initiated with `(browser=...)`**
 
 ## Actions
 
@@ -260,14 +273,14 @@ To continue with the above test example of a new friend request, the same test c
 		home = HomePage(browser=dashboard.logout())
 
 	
-The more step, pages and elements are involved, the more actions become useful.
+The more steps, pages and elements are involved, the more an action becomes useful.
 
 
 ## Page id
 
-An optional but recommended test that each page object runs is that it instanciate the correct application page. A page_id is a hidden HTML attribute that the page object init tries to find when CHECK_PAGE_ID = True.
+An optional but recommended test that each page object runs is that it instanciate the correct application page. A page_id is a hidden HTML attribute that the page object init tries to find when `CHECK_PAGE_ID = True` (see [Settings](settings.py)).
 
-To add page_id, add the following snippet to the base template. It should run when the page is ready. If you use jQuery, put it in the $(function(){}) script:
+To add `page_id`, add the following snippet to the base template. It should run when the page is ready. If you use jQuery, put it in the `$(function(){})` script:
 
 	$('body').append('<span id="page_id" page_id="{% block page_id %}base{% endblock page_id %}" style="display:none;"></span>');
 	
@@ -282,17 +295,17 @@ And in the page object class:
 		def __init__(self,*args,**kwargs):
 			...
 			
-When you instanciate a MyContactsPage in a test:
+When the test instanciate a MyContactsPage:
 
 	my_contacts = MyContactsPage(browser=self.browser)
 	
-It will check that the browser (self.browser) points to a page with the correct page_id, and the test will fail if not. This is a very easy way to find out errors before the test tries to run some further code on the wrong page.			
+The page object will check that the page `self.browser` points to a page with the correct `page_id`. The test will fail if it's not. This is a very easy way to make sure that the application navigation works as expected, and to find out errors before the test tries to run some further code on the wrong page.    
 
 
 
 ## Settings
 
-To changes the default page object selenium testing, add a dictionary named SELENIUM to the main django settings.py file.
+To changes the default page object selenium testing, add a dictionary named `SELENIUM` to the main site `settings.py` file.
 
 These are the dictionary keys and defaults:
 
@@ -311,7 +324,7 @@ These are the dictionary keys and defaults:
 
 
 **EXCLUDE_FIELDS**    
-When you subclass a form with WebFormById or WebFormByClass, it automatically grabs oall the text user input fields, and these fields are then cleared with "clear", or edited. If a text input field should be ignored by the test form manipulation code, add it to the EXCLUDE_FIELDS. The default is ['csrfmiddlewaretoken'], which is used by django for CSRF and is not useful for any user input or user interaction.
+When you subclass a form with `WebFormById` or `WebFormByClass`, it automatically grabs all the text user input fields. These fields are then cleared with `clear`, or edited. If a text input field should be ignored by the test form manipulation code, add it to the `EXCLUDE_FIELDS`. The default is `['csrfmiddlewaretoken']`, which is used by django for CSRF and is not useful for any user input or user interaction.
 
 **CHROME_DRIVER**    
 Running selenium tests with Chrome (or Chromium), require a separate driver that matches the specific Chrome version on your machine.
@@ -324,16 +337,16 @@ The browser that Selenium runs. The default is Firefox, which does not need any 
 Wait in seconds for an element, before TimeOut exception when the element is not found. Increase for slow loading websites.
 
 **SELENIUM_TIMEOUT_PAGE_LOAD**   
-Wait in seconds for the "page_id" HTML element, which tells the test that the page is ready.
+Wait in seconds for the `page_id` HTML element, which tells the test that the page is ready (see [Page id](#page-id)
 
 **WAIT_FOR_ELEMENT_TIMEOUT**    
-Implict wait for an HTML element in the Selenium wrapper methods. Useful when a specific element  takes more time to load. See [Selenium Wrapper]().
+Implict wait for an HTML element in the Selenium wrapper methods. Useful when a specific element  takes more time to load. See [Wrapper](#wrapper).
 
 **DESIRED_CAPABILITIES**   
 Optional Selenium configs
 
 **HOST**   
-The website hosts. Use 127.0.0.1:8000 for django development server, or the www.example.com for the site you test.
+The website hosts. Use `127.0.0.1:8000` for the django development server, or  `www.example.com` for a remote site (e.g. `www.mystaging.com`).
 
 **USE_HTTPS**    
 If you test over HTTPS, set to True
@@ -373,7 +386,7 @@ Another reaon to use the wrapper is that you will need it. As the application an
     
 		
 
-## Best Paractice
+## Best Paractices
 
 ### Use page id
 Testing with page id may seem a hustle at first, to add page id to all templates, but it quickly pays of. You know that the application takes the user to where it should, and you don't waiste time on exceptions because of the wrong page.
@@ -458,11 +471,12 @@ When you subclass LoginPage, the main menu is available to all pages.
 
 ### List View Pages
 
-To repesent a list of items in a page, use xpath. In most web application every item has an id, or a uuid, so it's hard to knoq before-hand what this id will be in the test. Xpath is a convinient way to loop through the list by the item **position**, regardless the id.
+To repesent a list of items in a page, use **xpath**. In most web application every item has an id, or a uuid, so it's hard to know beforehand what this id will be when the test runs.    
+Xpath is a convinient way to loop through the list by the item by **position**, regardless the id.
 
-Again, map an item to an element object, with context methods like edit, delete, update, approve etc.
+Map every item to an element object, with context methods like `edit`, `delete`, `update`, `approve` etc.
 
-Coding against a "tabel of expesnes" page may look like this:
+Coding against a "table of expesnes" page may look like this:
 
 
 	class Expense(elements_base.WebElementByXPath):
@@ -485,12 +499,12 @@ Coding against a "tabel of expesnes" page may look like this:
         	self._expenses.append(expense)
         	
         	
-Then in the test, the expenses page with 5 expenses:
+Then in the test, an expenses page with 5 expenses:
 
 	exp_page = ExpensesPage(browser=self.browser)
 	exp_page.expenses = 5
 	
-You can even add the expenses to the __init__ method, so instanciating is:
+You can even add the expenses to the `__init__` method, so instanciating is:
 
 	exp_page = ExpensesPage(browser=self.browser,expenses=5)
 	
@@ -498,8 +512,10 @@ Do something with the 2nd expense:
 
 	exp_page.expenses[1].approve()
 	
-## Full Example
-Page objects testing is better understood with an example, so please review the [Example Project](), with a full testing with pages, elements, forms and data, of a complete project website.
+	
+### Context	
+Page objects testing is better understood with real code, so after this README please review the [django-website](https://github.com/Aviah/django-website), a complete website with page objects testing: pages, elements, forms and data
+	
 
 ## Automation is Not Everyting
 Finally, automation is important, and efficiant, but it can't replace the look and feel of a manual testing, of real work with the application. Only with manual testing you can find things that are not easily understood, confusing, unclear.
