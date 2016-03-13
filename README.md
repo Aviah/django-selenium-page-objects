@@ -1,8 +1,8 @@
 # Django-Selenium Page Objects
 
-**Framework to test django sites with Selenium, by app context & the page-objects design pattern**
+**A testing framework, to test django sites with Selenium, by the web-application context & the page-objects design pattern**
 
-*Note: It's easier to grasp the idea in real code, so after this README, please look at a full page objects testing code for a real website in the [django-website](https://github.com/Aviah/django-website)*
+*Note: It's easier to grasp the idea in actual code, so after this README, please look at a page-objects testing code in a real website, see [django-website](https://github.com/Aviah/django-website)*
 
 [Overview](#overview)    
 [How To](#how-to)    
@@ -10,7 +10,7 @@
 [Writing Tests](#writing-tests)    
 [Install](#install)    
 [Browser](#browser)    
-[Actions](#actions)    
+[Test Actions](#test-actions)    
 [Page id](#page-id)    
 [Settings](#settings)    
 [Wrapper](#wrapper)    
@@ -257,7 +257,7 @@ All page objects, element objects and form objects have a "browser" attribute, s
 1. Every page method, element method and action should return a browser instance.    
 2. Initiate every page & element with `(browser=…)`**
 
-## Actions
+## Test Actions
 
 When many tests share the same repeating steps, it's easier to define an "action", a series of steps that the test can run in a single call.
 
@@ -518,8 +518,8 @@ Do something with the 2nd expense:
 	exp_page.expenses[1].approve()
 	
 	
-### Context	
-Page objects testing is better understood with real code, so after this README please review the [django-website](https://github.com/Aviah/django-website), a complete website with page objects testing: pages, elements, forms and data
+### Real Website Context	
+Page objects testing is better understood with real code, so after this README please review the [django-website](https://github.com/Aviah/django-website), a complete website with page objects testing, with pages, elements, forms and data
 	
 
 ## Automation is Not Everyting
@@ -527,6 +527,12 @@ Finally, automation is important, and efficiant, but it can't replace the look a
 
 It's even useful once in while to run the Selenium tests with a real browser, and just watch the app runs, make sure that it makes sense to a human.
 
-Only with actual usage of the web application you suddenly spot bugs and errors that the best test suite and 100% coverage can not find - but the user will.
+Only with actual usage of the web application you suddenly spot bugs and errors that the best test suite and 100% coverage can't find - but the user will.
+
+Support this project with my affiliate link| 
+-------------------------------------------|
+https://www.linode.com/?r=cc1175deb6f3ad2f2cd6285f8f82cefe1f0b3f46|
+
+
 
           	
