@@ -432,7 +432,7 @@ Many Selenium otherwise unexplained errors are solved with a simple wait. This i
 You can adjust the time Selenium waits, in seconds, as follows:
 
 Usage | Settings
--| -
+------| --------
 The entire driver session |SELENIUM_TIMEOUT_WEBDRIVER
 Wait until page loads to "ready" state | SELENIUM_TIMEOUT_PAGE_LOAD
 Wait for a specific element | WAIT_FOR_ELEMENT_TIMEOUT, and use the wrapper calls with wait=True
@@ -477,7 +477,7 @@ When you subclass LoginPage, the main menu is available to all pages.
 ### List View Pages
 
 To repesent a list of items in a page, use **xpath**. In most web application every item has an id, or a uuid, so it's hard to know beforehand what this id will be when the test runs.    
-Xpath is a convinient way to loop through the list by the item by **position**, regardless the id.
+Xpath is a convinient way to loop through the list by the item **position**, regardless of the id.
 
 Map every item to an element object, with context methods like `edit`, `delete`, `update`, `approve` etc.
 
